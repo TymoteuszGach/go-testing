@@ -6,4 +6,4 @@ Create an app that reads a JSON message containing two numbers from NATS Streami
 
 
 Problems:
-- how to test gcf algorithm?
+- how to test gcf algorithm? (why save to database?)

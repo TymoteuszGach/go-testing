@@ -15,7 +15,7 @@ type GCFRequest struct {
 	Number2 int64 `json:"number_2"`
 }
 
-func main(){
+func main() {
 	clusterID := "test-cluster"
 	clientID := "test-client"
 	subject := "gcf"
@@ -38,7 +38,11 @@ func main(){
 
 	databaseAdapter := NewMongoDBAdapter(mongoDBClient)
 
-	gcfEventHandler := NewGCFEventHandler(databaseAdapter)
+	gcfCalculator := NewEuclideanGCFCalculator()
+	
+	gcfRequestProcessor := NewGCFRequestProcessor(databaseAdapter, gcfCalculator)
+
+	gcfEventHandler := NewGCFEventHandler(gcfRequestProcessor.Process)
 
 	sub, err := sc.Subscribe(subject, gcfEventHandler.Handle)
 	if err != nil {
