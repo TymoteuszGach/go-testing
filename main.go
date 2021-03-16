@@ -10,20 +10,9 @@ import (
 	"time"
 )
 
-const (
-	databaseName = "go-testing"
-	gcfResultsCollection = "gcf"
-)
-
 type GCFRequest struct {
 	Number1 int64 `json:"number_1"`
 	Number2 int64 `json:"number_2"`
-}
-
-type GCFResult struct {
-	Number1 int64
-	Number2 int64
-	GCF 	int64
 }
 
 func main(){
@@ -47,7 +36,9 @@ func main(){
 		}
 	}()
 
-	gcfEventHandler := NewGCFEventHandler(mongoDBClient)
+	databaseAdapter := NewMongoDBAdapter(mongoDBClient)
+
+	gcfEventHandler := NewGCFEventHandler(databaseAdapter)
 
 	sub, err := sc.Subscribe(subject, gcfEventHandler.Handle)
 	if err != nil {
@@ -63,7 +54,7 @@ func main(){
 		}
 	}()
 
-	gcfRESTHandler := NewGCFRestHandler(mongoDBClient)
+	gcfRESTHandler := NewGCFRestHandler(databaseAdapter)
 
 	http.HandleFunc("/gcf", gcfRESTHandler.ListGCFResults)
 	log.Fatal(http.ListenAndServe(":8080", nil))
