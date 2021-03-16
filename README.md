@@ -6,6 +6,5 @@ Create an app that reads a JSON message containing two numbers from NATS Streami
 
 
 Problems:
-- hard to see what the code is doing
-- how to test it (feedback loop)
+- how to test it? (feedback loop)
 - what if requirements change? for example, we would like to store the data in DynamoDB
