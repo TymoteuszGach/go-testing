@@ -9,16 +9,11 @@ import (
 )
 
 const (
-	databaseName = "go-testing"
+	databaseName         = "go-testing"
 	gcfResultsCollection = "gcf"
 )
 
-type DatabaseAdapter interface{
-	ListGCFResults() ([]GCFResult, error)
-	SaveGCFResult(GCFResult) error
-}
-
-type MongoDBAdapter struct{
+type MongoDBAdapter struct {
 	client *mongo.Client
 }
 
@@ -29,7 +24,7 @@ func NewMongoDBAdapter(client *mongo.Client) *MongoDBAdapter {
 type GCFResult struct {
 	Number1 int64 `bson:"number_1"`
 	Number2 int64 `bson:"number_2"`
-	GCF 	int64 `bson:"gcf"`
+	GCF     int64 `bson:"gcf"`
 }
 
 func (result GCFResult) String() string {

@@ -35,7 +35,7 @@ func main() {
 
 	gcfCalculator := NewEuclideanGCFCalculator()
 
-	gcfRequestProcessor := NewGCFRequestProcessor(databaseAdapter, gcfCalculator)
+	gcfRequestProcessor := NewGCFRequestProcessor(databaseAdapter.SaveGCFResult, gcfCalculator)
 
 	gcfEventHandler := NewGCFEventHandler(gcfRequestProcessor.Process)
 
@@ -53,7 +53,7 @@ func main() {
 		}
 	}()
 
-	gcfRESTHandler := NewGCFRestHandler(databaseAdapter)
+	gcfRESTHandler := NewGCFRestHandler(databaseAdapter.ListGCFResults)
 
 	http.HandleFunc("/gcf", gcfRESTHandler.ListGCFResults)
 	log.Fatal(http.ListenAndServe(":8080", nil))

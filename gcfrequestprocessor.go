@@ -4,17 +4,19 @@ import (
 	"fmt"
 )
 
-type GCFCalculator interface{
+type GCFCalculator interface {
 	Calculate(number1 int64, number2 int64) int64
 }
 
-type GCFRequestProcessor struct{
-	dbAdapter DatabaseAdapter
-	calculator GCFCalculator
+type SaveGCFResult func(GCFResult) error
+
+type GCFRequestProcessor struct {
+	saveGCFResult SaveGCFResult
+	calculator    GCFCalculator
 }
 
-func NewGCFRequestProcessor(dbAdapter DatabaseAdapter, calculator GCFCalculator) *GCFRequestProcessor {
-	return &GCFRequestProcessor{dbAdapter: dbAdapter, calculator: calculator}
+func NewGCFRequestProcessor(saveGCFResult SaveGCFResult, calculator GCFCalculator) *GCFRequestProcessor {
+	return &GCFRequestProcessor{saveGCFResult: saveGCFResult, calculator: calculator}
 }
 
 func (processor *GCFRequestProcessor) Process(request GCFRequest) error {
@@ -26,7 +28,7 @@ func (processor *GCFRequestProcessor) Process(request GCFRequest) error {
 		GCF:     gcf,
 	}
 
-	err := processor.dbAdapter.SaveGCFResult(gcfResult)
+	err := processor.saveGCFResult(gcfResult)
 	if err != nil {
 		return fmt.Errorf("cannot save result to database: %v", err)
 	}

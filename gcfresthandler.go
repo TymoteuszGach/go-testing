@@ -7,18 +7,20 @@ import (
 	"strings"
 )
 
+type ListGCFResults func() ([]GCFResult, error)
+
 type GCFRestHandler struct {
-	dbAdapter DatabaseAdapter
+	listGCFResults ListGCFResults
 }
 
-func NewGCFRestHandler(dbAdapter DatabaseAdapter) *GCFRestHandler {
-	return &GCFRestHandler{dbAdapter: dbAdapter}
+func NewGCFRestHandler(listGCFResults ListGCFResults) *GCFRestHandler {
+	return &GCFRestHandler{listGCFResults: listGCFResults}
 }
 
 func (handler *GCFRestHandler) ListGCFResults(w http.ResponseWriter, r *http.Request) {
-	results, err := handler.dbAdapter.ListGCFResults()
+	results, err := handler.listGCFResults()
 	resultsStrings := make([]string, len(results))
-	for i, result := range results{
+	for i, result := range results {
 		resultsStrings[i] = result.String()
 	}
 	if err != nil {
