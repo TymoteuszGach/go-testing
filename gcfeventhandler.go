@@ -6,9 +6,14 @@ import (
 	"log"
 )
 
+type GCFRequest struct {
+	Number1 int64 `json:"number_1"`
+	Number2 int64 `json:"number_2"`
+}
+
 type OnGCFRequest func(GCFRequest) error
 
-type GCFEventHandler struct{
+type GCFEventHandler struct {
 	onGCFRequest OnGCFRequest
 }
 

@@ -2,8 +2,9 @@
 
 **Requirements:**
 
-Create an app that reads a JSON message containing two numbers from NATS Streaming, calculates Greatest Common Factor and saves the result to MongoDB. Additionally add a REST endpoint to expose the list of all calculated results.
-
+Create an app that reads a JSON message containing two numbers from NATS Streaming, calculates Greatest Common Factor
+and saves the result to MongoDB. Additionally add a REST endpoint to expose the list of all calculated results.
 
 Problems:
-- how to test gcf algorithm? (why save to database?)
+
+- why do rest handler and request processor care about the database?

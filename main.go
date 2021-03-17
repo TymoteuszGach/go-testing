@@ -10,11 +10,6 @@ import (
 	"time"
 )
 
-type GCFRequest struct {
-	Number1 int64 `json:"number_1"`
-	Number2 int64 `json:"number_2"`
-}
-
 func main() {
 	clusterID := "test-cluster"
 	clientID := "test-client"
@@ -39,7 +34,7 @@ func main() {
 	databaseAdapter := NewMongoDBAdapter(mongoDBClient)
 
 	gcfCalculator := NewEuclideanGCFCalculator()
-	
+
 	gcfRequestProcessor := NewGCFRequestProcessor(databaseAdapter, gcfCalculator)
 
 	gcfEventHandler := NewGCFEventHandler(gcfRequestProcessor.Process)
